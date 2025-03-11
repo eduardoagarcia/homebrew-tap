@@ -15,20 +15,30 @@ class Shef < Formula
         sha256 "7654e25b7b86cbfebaf57ffb34cda6604c6142b0356abdc51f671c4df8f1d959"
     end
 
-    def install
-        # More robust installation that handles the directory structure
-        if Hardware::CPU.intel?
-            bin.install "shef_darwin_amd64/shef" => "shef"
+      def install
+        # Print directory contents to see what's actually there
+        system "ls", "-la"
+
+        # Find the binary file recursively
+        binary = Dir["**/shef"].first || Dir["**/shef.exe"].first
+
+        if binary
+          bin.install binary => "shef"
         else
-            bin.install "shef_darwin_arm64/shef" => "shef"
+          # Try a different approach - find any executable file
+          executables = Dir["**/*"].select { |f| File.file?(f) && File.executable?(f) }
+          if executables.any?
+            bin.install executables.first => "shef"
+          else
+            # If all else fails, let the user know what files are available
+            files = Dir["**/*"].select { |f| File.file?(f) }
+            ohai "Available files:"
+            files.each { |f| ohai "  #{f}" }
+
+            raise "Could not find the shef binary in the archive"
+          end
         end
-    rescue StandardError => e
-        # Debug output to help diagnose the issue
-        ohai "Error during installation: #{e.message}"
-        ohai "Archive contents:"
-        system "find", ".", "-ls"
-        raise
-    end
+      end
 
     test do
         system "#{bin}/shef", "--version"
