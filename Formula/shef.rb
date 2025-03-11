@@ -16,9 +16,12 @@ class Shef < Formula
   end
 
   def install
-    bin.install "shef_darwin_amd64/shef" if Hardware::CPU.intel?
-    bin.install "shef_darwin_arm64/shef" if Hardware::CPU.arm?
-  end
+      if Hardware::CPU.intel?
+        bin.install Dir["shef_darwin_amd64/*"].first => "shef"
+      else
+        bin.install Dir["shef_darwin_arm64/*"].first => "shef"
+      end
+    end
 
   test do
     system "#{bin}/shef", "--version"
