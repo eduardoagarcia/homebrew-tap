@@ -16,11 +16,18 @@ class Shef < Formula
     end
 
     def install
+        # More robust installation that handles the directory structure
         if Hardware::CPU.intel?
-            bin.install Dir["shef_darwin_amd64/*"].first => "shef"
+            bin.install "shef_darwin_amd64/shef" => "shef"
         else
-            bin.install Dir["shef_darwin_arm64/*"].first => "shef"
+            bin.install "shef_darwin_arm64/shef" => "shef"
         end
+    rescue StandardError => e
+        # Debug output to help diagnose the issue
+        ohai "Error during installation: #{e.message}"
+        ohai "Archive contents:"
+        system "find", ".", "-ls"
+        raise
     end
 
     test do
