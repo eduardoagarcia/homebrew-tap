@@ -3,16 +3,16 @@ class Shef < Formula
     homepage "https://github.com/eduardoagarcia/shef"
     license "MIT"
 
-    version "v0.1.5"
+    version "v0.1.6"
 
     # Intel Mac
     if Hardware::CPU.intel?
-        url "https://github.com/eduardoagarcia/shef/releases/download/v0.1.5/shef_darwin_amd64.tar.gz"
-        sha256 "49bb314cea5ef803e7f5d08fc8c65f55997c9ef88b6cdfd073a8300e0d287796"
+        url "https://github.com/eduardoagarcia/shef/releases/download/v0.1.6/shef_darwin_amd64.tar.gz"
+        sha256 "0c06fc79c8f28fb46403374113b7fba6a2f0af45d876ada2a43c95e52e05954f"
     # Apple Silicon
     else
-        url "https://github.com/eduardoagarcia/shef/releases/download/v0.1.5/shef_darwin_arm64.tar.gz"
-        sha256 "3d4c5a5e7ade9264e3caf21854f4f48a4cfa487e62654758e63019c932b8cee1"
+        url "https://github.com/eduardoagarcia/shef/releases/download/v0.1.6/shef_darwin_arm64.tar.gz"
+        sha256 "4e4a600a5b7ca9ccddc216cb70233feece4faa281e733623699188bb79472ce4"
     end
 
     def install
